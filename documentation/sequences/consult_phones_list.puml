@@ -1,0 +1,17 @@
+@startuml
+
+actor Customer
+participant BileMo
+participant "Database" as DB
+
+Customer -> BileMo : GET /phones
+activate BileMo
+BileMo -> DB : "SELECT * FROM phones"
+activate DB
+DB -> BileMo : List of stored phones
+deactivate DB
+BileMo -> Customer : [200 Response status code] Json phones list
+deactivate BileMo
+
+
+@enduml

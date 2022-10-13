@@ -1,0 +1,32 @@
+@startuml
+
+entity customers {
+    * id
+    * name
+    * email
+}
+
+entity customer_users {
+    * id
+    * firstname
+    * lastname
+    * email
+}
+
+entity phones {
+    * id
+    * brand_id
+    * model
+    * price
+    * description
+}
+
+entity brands {
+    * id
+    * name
+}
+
+customers ||..o{ customer_users
+phones ||..|| brands
+
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Customer {
+    - String name
+    - String email
+
+    + setName(String name)
+    + setEmail(String email)
+
+    + getName() : String
+    + getEmail() : String
+}
+
+class CustomerUser {
+    - String firstName
+    - String lastName
+    - String email
+
+    + setFirstName(String firstName)
+    + setLastName(String lastName)
+    + setEmail(String email)
+
+    + getFirstName() : String
+    + getLastName() : String
+    + getEmail() : String
+}
+
+Customer *-- CustomerUser : > has many
+
+class Phone {
+    - String model
+    - Int price
+    - String description
+
+    + setModel(String model): void
+    + setPrice(Int price): void
+    + setDescription(String description): void
+    + setBrand(Brand): void
+
+    + getModel() : String
+    + getPrice() : Int
+    + getDescription() : String
+    + getBrand(): Brand
+}
+
+class Brand {
+    - String name
+
+    + setName(String name): void
+
+    + getName(): String
+}
+
+Phone o-- Brand : > is a model of
+
+@enduml

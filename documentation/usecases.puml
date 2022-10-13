@@ -1,0 +1,27 @@
+@startuml
+
+left to right direction
+
+actor Customer
+actor BileMoStaff as "BileMo staff"
+
+usecase "Consult phones list" as PhoneIndex
+usecase "Consult phone details" as PhoneShow
+
+usecase "Consult registered customer's users list" as UserIndex
+usecase "Consult registered customer's user details" as UserShow
+usecase "Register new customer's user" as UserCreate
+usecase "Delete a customer's user" as UserDelete
+
+usecase "Create an OAuth client for a customer" as CreateOAuth
+
+Customer --> PhoneIndex
+Customer --> PhoneShow
+Customer --> UserIndex
+Customer --> UserShow
+Customer --> UserCreate
+Customer --> UserDelete
+
+BileMoStaff --> CreateOAuth
+
+@enduml
