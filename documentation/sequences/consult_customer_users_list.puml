@@ -1,0 +1,17 @@
+@startuml
+
+actor Customer
+participant BileMo
+participant "Database" as DB
+
+Customer -> BileMo : GET /users
+activate BileMo
+BileMo -> DB : SELECT * FROM customer_users cu \nINNER JOIN customers c \nON cu.customer_id = c.id \nWHERE c.id = ?
+activate DB
+DB -> BileMo : List of users for customer
+deactivate DB
+BileMo -> Customer : [200 Response status code] Json customer users list
+deactivate BileMo
+
+
+@enduml

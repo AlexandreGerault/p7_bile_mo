@@ -1,0 +1,14 @@
+@startuml
+
+actor Customer
+participant BileMo
+participant "Database" as DB
+
+Customer -> BileMo : DELETE /users/{id}
+activate BileMo
+BileMo -> DB : DELETE FROM customer_users cu WHERE cu.id = ?
+BileMo -> Customer : [204 Response status code]
+deactivate BileMo
+
+
+@enduml

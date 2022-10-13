@@ -1,0 +1,14 @@
+@startuml
+
+actor Customer
+participant BileMo
+participant "Database" as DB
+
+Customer -> BileMo : POST /users
+activate BileMo
+BileMo -> DB : INSERT INTO customer_users VALUES (...)
+BileMo -> Customer : [201 Response status code] Json created customer user details
+deactivate BileMo
+
+
+@enduml
