@@ -18,14 +18,28 @@ status: ## Stack status
 #-----------------------------------------------------------
 ##@ # Test commands
 #-----------------------------------------------------------
+up-test: ## Start the project stack
+	@docker compose -f docker-compose.test.yaml --env-file=.env.test up -d
+
+up-force-test: ## Start the project stack with recreate step
+	@docker compose -f docker-compose.test.yaml --env-file=.env.test up -d --force-recreate
+up-build-test: ## Start the project stack with recreate & build steps
+	@docker compose -f docker-compose.test.yaml --env-file=.env.test up -d --build --force-recreate
+down-test: ## Stop the project stack
+	@docker compose -f docker-compose.test.yaml --env-file=.env.test down
+restart-test: down up ### Restart the project stack
+
+status-test: ## Stack status
+	@docker compose -f docker-compose.test.yaml --env-file=.env.test ps
+
+#-----------------------------------------------------------
+##@ # Quality commands
+#-----------------------------------------------------------
 
 analyse: ## Static analysis
-	docker-compose run php ./vendor/bin/phpstan analyse --memory-limit=2G
+	@docker-compose run php ./vendor/bin/phpstan analyse --memory-limit=2G
 
-test: ## Start the whole test suite
-	docker-compose run php php artisan test
-
-prepare: format analyse test
+prepare: analyse
 
 #-----------------------------------------------------------
 ##@ # Nginx commands

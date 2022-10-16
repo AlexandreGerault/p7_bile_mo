@@ -1,5 +1,6 @@
 league_oauth2_server:
     authorization_server:
+        enable_client_credentials_grant: true
         private_key: '%env(resolve:OAUTH_PRIVATE_KEY)%'
         private_key_passphrase: '%env(resolve:OAUTH_PASSPHRASE)%'
         encryption_key: '%env(resolve:OAUTH_ENCRYPTION_KEY)%'
@@ -14,4 +15,4 @@ league_oauth2_server:
 when@test:
     league_oauth2_server:
         persistence:
-            in_memory: null
+            doctrine: null
