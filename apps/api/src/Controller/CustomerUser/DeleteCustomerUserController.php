@@ -17,7 +17,7 @@ class DeleteCustomerUserController extends ExtendedAbstractController
     }
 
     #[Route('/api/customer_users/{id}', name: 'api_customer_users_delete', methods: ['DELETE'])]
-    public function __invoke(CustomerUser $customerUser)
+    public function __invoke(CustomerUser $customerUser): Response
     {
         $this->denyAccessUnlessGranted('delete', $customerUser);
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Api\CustomerUsers;
 
 use App\Tests\Api\ApiTestCase;
+use App\Tests\Api\Helpers\AssertResponse;
 use App\Tests\Api\Helpers\CustomerUserFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class GetCustomerUserDetailsTest extends ApiTestCase
 {
     use CustomerUserFactory;
+    use AssertResponse;
 
     public function testAGuestCannotSeeAUserDetails(): void
     {
@@ -53,13 +55,8 @@ class GetCustomerUserDetailsTest extends ApiTestCase
             ],
             $response['data']
         );
-        $this->assertArrayHasKey('links', $response);
-        $this->assertArrayHasKey('self', $response['links']);
-        $this->assertArrayHasKey('url', $response['links']['self']);
-        $this->assertEquals(
-            '/api/customer_users/' . $customerUser->getId(),
-            $response['links']['self']['url']
-        );
+        $this->assertResponseHasLink($client, 'self', '/api/customer_users/' . $customerUser->getId());
+        $this->assertResponseHasLink($client, 'delete', '/api/customer_users/' . $customerUser->getId());
     }
 
     public function testAClientCannotSeeAUserOfAnotherClient(): void

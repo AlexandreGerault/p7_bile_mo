@@ -30,6 +30,12 @@ class CustomerUserResourceFactory
             ]
         ];
 
+        if ($this->security->isGranted('delete', $customerUser)) {
+            $links['delete'] = [
+                'url' => $this->urlGenerator->generate('api_customer_users_delete', ['id' => $customerUser->getId()]),
+            ];
+        }
+
         return new CustomerUserResource($data, $links);
     }
 }
