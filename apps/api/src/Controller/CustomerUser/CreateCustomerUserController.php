@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Controller\CustomerUser;
 
+use App\Entity\Customer;
 use App\Entity\CustomerUser;
 use App\Factory\CustomerUserFactory;
 use App\Manager\CustomerUserManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Security\User\NullUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -21,6 +25,8 @@ class CreateCustomerUserController extends AbstractController
     public function __construct(
         private readonly CustomerUserManagerInterface $entityManager,
         private readonly SerializerInterface $serializer,
+        private readonly ClientManagerInterface $clientManager,
+        private readonly Security $security
     )
     {
     }
@@ -28,9 +34,14 @@ class CreateCustomerUserController extends AbstractController
     #[Route('/api/customer_users', name: 'api_customer_users', methods: ['POST'])]
     public function __invoke(Request $request, ValidatorInterface $validator): Response
     {
+        $oauthClientId = $this->security->getToken()->getAttribute('oauth_client_id');
+        $customer = $this->clientManager->find($oauthClientId);
+
         $payload = json_encode($request->request->all());
 
+        /** @var CustomerUser $customerUser */
         $customerUser = $this->serializer->deserialize($payload, CustomerUser::class, 'json');
+        $customerUser->setClient($customer);
 
         $errors = $validator->validate($customerUser);
 

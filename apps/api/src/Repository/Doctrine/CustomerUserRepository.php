@@ -21,4 +21,9 @@ class CustomerUserRepository extends ServiceEntityRepository implements Customer
     {
         return $this->findAll();
     }
+
+    public function findByEmail(string $email): ?CustomerUser
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
 }

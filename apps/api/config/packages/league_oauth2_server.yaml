@@ -1,4 +1,6 @@
 league_oauth2_server:
+    client:
+        classname: App\Entity\Customer
     authorization_server:
         enable_client_credentials_grant: true
         private_key: '%env(resolve:OAUTH_PRIVATE_KEY)%'

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use League\Bundle\OAuth2ServerBundle\Entity\Client;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\AbstractUid;
@@ -36,6 +37,10 @@ class CustomerUser
     #[Assert\NotBlank]
     #[Groups(['customer_user:read'])]
     private string $lastName;
+
+    #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'users')]
+    #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'identifier', nullable: false)]
+    private Customer $client;
 
     public function __construct()
     {
@@ -84,5 +89,16 @@ class CustomerUser
     {
         $this->lastName = $lastName;
         return $this;
+    }
+
+    public function setClient(Customer $client): CustomerUser
+    {
+        $this->client = $client;
+        return $this;
+    }
+
+    public function getClient(): Customer
+    {
+        return $this->client;
     }
 }

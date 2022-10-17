@@ -10,4 +10,6 @@ interface CustomerUserRepositoryInterface
 {
     /** @return CustomerUser[] */
     public function all(): array;
+
+    public function findByEmail(string $email): ?CustomerUser;
 }
