@@ -5,19 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\CustomerUser;
 
 use App\Controller\ExtendedAbstractController;
-use App\Entity\Customer;
 use App\Entity\CustomerUser;
-use App\Factory\CustomerUserFactory;
+use App\Factory\HttpResource\CustomerUserResourceFactory;
 use App\Manager\CustomerUserManagerInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
-use League\Bundle\OAuth2ServerBundle\Security\User\NullUser;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -26,6 +19,7 @@ class CreateCustomerUserController extends ExtendedAbstractController
     public function __construct(
         private readonly CustomerUserManagerInterface $entityManager,
         private readonly SerializerInterface $serializer,
+        private readonly CustomerUserResourceFactory $customerUserResourceFactory,
     ) {
     }
 
@@ -48,6 +42,9 @@ class CreateCustomerUserController extends ExtendedAbstractController
 
         $this->entityManager->save($customerUser);
 
-        return $this->json($customerUser, Response::HTTP_CREATED, context: ['groups' => ['customer_user:read']]);
+        return $this->json(
+            $this->customerUserResourceFactory->create($customerUser),
+            Response::HTTP_CREATED,
+        );
     }
 }
