@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class CustomerUserVoter extends Voter
 {
     const VIEW = 'view';
+    const DELETE = 'delete';
 
     public function __construct(private readonly ClientManagerInterface $clientManager)
     {
@@ -19,7 +20,7 @@ class CustomerUserVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        if (!in_array($attribute, [self::VIEW])) {
+        if (!in_array($attribute, [self::VIEW, self::DELETE])) {
             return false;
         }
 

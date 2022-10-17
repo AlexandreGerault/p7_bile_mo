@@ -9,4 +9,6 @@ use App\Entity\CustomerUser;
 interface CustomerUserManagerInterface
 {
     public function save(CustomerUser $customerUser): void;
+
+    public function delete(CustomerUser $customerUser): void;
 }
