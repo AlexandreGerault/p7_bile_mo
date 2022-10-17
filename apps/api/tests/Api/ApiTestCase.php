@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Api;
 
 use App\Entity\Customer;
+use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Model\Client;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -39,5 +40,15 @@ class ApiTestCase extends WebTestCase
         $response = json_decode($response, true);
 
         return $response['access_token'];
+    }
+
+    public function getEntityManagerInterface(): EntityManagerInterface
+    {
+        $container = $this->getContainer();
+
+        /** @var EntityManagerInterface $em */
+        $em = $container->get(EntityManagerInterface::class);
+
+        return $em;
     }
 }
