@@ -35,7 +35,10 @@ class CustomerUserVoter extends Voter
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        $customer = $this->clientManager->find($token->getAttribute('oauth_client_id'));
+        /** @var string $customerId */
+        $customerId = $token->getAttribute('oauth_client_id');
+
+        $customer = $this->clientManager->find($customerId);
 
         if (is_null($customer)) {
             return false;

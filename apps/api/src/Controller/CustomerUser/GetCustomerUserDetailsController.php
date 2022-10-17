@@ -12,8 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GetCustomerUserDetailsController extends ExtendedAbstractController
 {
-    public function __construct(
-        private readonly CustomerUserResourceFactory $customerUserResourceFactory,)
+    public function __construct(private readonly CustomerUserResourceFactory $customerUserResourceFactory)
     {
     }
 
