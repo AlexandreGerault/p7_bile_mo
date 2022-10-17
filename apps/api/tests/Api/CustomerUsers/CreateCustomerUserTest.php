@@ -53,6 +53,14 @@ class CreateCustomerUserTest extends ApiTestCase
         $this->assertArrayHasKey('firstName', $responseContent['data']);
         $this->assertArrayHasKey('lastName', $responseContent['data']);
 
+        $this->assertArrayHasKey('links', $responseContent);
+        $this->assertArrayHasKey('self', $responseContent['links']);
+        $this->assertArrayHasKey('url', $responseContent['links']['self']);
+        $this->assertEquals(
+            '/api/customer_users/' . $responseContent['data']['id'],
+            $responseContent['links']['self']['url']
+        );
+
         $customerUser = $customerUserRepository->findByEmail('johndoe@example.com');
         $this->assertEquals($oauthClient->getIdentifier(), $customerUser?->getClient()->getIdentifier());
     }
