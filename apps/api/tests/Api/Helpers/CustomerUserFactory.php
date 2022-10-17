@@ -9,7 +9,7 @@ use League\Bundle\OAuth2ServerBundle\Model\AbstractClient;
 
 trait CustomerUserFactory
 {
-    public function create(AbstractClient $client, string $email, string $firstName, string $lastName): CustomerUser
+    public function createCustomerUser(AbstractClient $client, string $email, string $firstName, string $lastName): CustomerUser
     {
         $customerUser = new CustomerUser();
         $customerUser->setClient($client);
