@@ -4,12 +4,15 @@ namespace App\Tests\Api\CustomerUsers;
 
 use App\Repository\CustomerUserRepositoryInterface;
 use App\Tests\Api\ApiTestCase;
+use App\Tests\Api\Helpers\AssertResponse;
 use Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CreateCustomerUserTest extends ApiTestCase
 {
+    use AssertResponse;
+    
     public function testAUserCannotBeCreatedWithoutAuthentication(): void
     {
         $client = static::createClient();
@@ -53,13 +56,8 @@ class CreateCustomerUserTest extends ApiTestCase
         $this->assertArrayHasKey('firstName', $responseContent['data']);
         $this->assertArrayHasKey('lastName', $responseContent['data']);
 
-        $this->assertArrayHasKey('links', $responseContent);
-        $this->assertArrayHasKey('self', $responseContent['links']);
-        $this->assertArrayHasKey('url', $responseContent['links']['self']);
-        $this->assertEquals(
-            '/api/customer_users/' . $responseContent['data']['id'],
-            $responseContent['links']['self']['url']
-        );
+        $this->assertResponseHasLink($client, 'self', '/api/customer_users/' . $responseContent['data']['id']);
+        $this->assertResponseHasLink($client, 'delete', '/api/customer_users/' . $responseContent['data']['id']);
 
         $customerUser = $customerUserRepository->findByEmail('johndoe@example.com');
         $this->assertEquals($oauthClient->getIdentifier(), $customerUser?->getClient()->getIdentifier());

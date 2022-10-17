@@ -19,4 +19,10 @@ class CustomerUserManager implements CustomerUserManagerInterface
         $this->entityManager->persist($customerUser);
         $this->entityManager->flush();
     }
+
+    public function delete(CustomerUser $customerUser): void
+    {
+        $this->entityManager->remove($customerUser);
+        $this->entityManager->flush();
+    }
 }
