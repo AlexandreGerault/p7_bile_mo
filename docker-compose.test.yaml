@@ -1,0 +1,29 @@
+services:
+  mysql_test:
+    image: mysql:latest
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - '${MYSQL_PORT}:3306'
+    volumes:
+      - database-volume-test:/var/lib/mysql
+
+  php_test:
+    build:
+      context: .
+      dockerfile: docker/${ENV}/php/Dockerfile
+    volumes:
+      - ./apps/api:/apps/api
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql_test:3306/${MYSQL_DATABASE}?serverVersion=8&charset=utf8mb4"
+    user: ${LOCAL_USER}
+
+volumes:
+  database-volume-test:
