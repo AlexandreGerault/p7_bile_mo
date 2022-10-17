@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\CustomerUser;
 
+use App\Controller\ExtendedAbstractController;
 use App\Entity\Customer;
 use App\Entity\CustomerUser;
 use App\Factory\CustomerUserFactory;
@@ -20,22 +21,18 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class CreateCustomerUserController extends AbstractController
+class CreateCustomerUserController extends ExtendedAbstractController
 {
     public function __construct(
         private readonly CustomerUserManagerInterface $entityManager,
         private readonly SerializerInterface $serializer,
-        private readonly ClientManagerInterface $clientManager,
-        private readonly Security $security
-    )
-    {
+    ) {
     }
 
     #[Route('/api/customer_users', name: 'api_customer_users', methods: ['POST'])]
     public function __invoke(Request $request, ValidatorInterface $validator): Response
     {
-        $oauthClientId = $this->security->getToken()->getAttribute('oauth_client_id');
-        $customer = $this->clientManager->find($oauthClientId);
+        $customer = $this->getOAuthClient();
 
         $payload = json_encode($request->request->all());
 
