@@ -61,4 +61,26 @@ class GetCustomerUserDetailsTest extends ApiTestCase
             $response['links']['self']['url']
         );
     }
+
+    public function testAClientCannotSeeAUserOfAnotherClient(): void
+    {
+        $client = static::createClient();
+        $oauthClient = $this->createOAuthClient();
+        $token = $this->getAccessTokenFor($oauthClient, $client);
+
+        $customerUser = $this->createCustomerUser(
+            client: $this->createOAuthClient("Another client", "another_client"),
+            email: 'johndoe@example.com',
+            firstName: 'John',
+            lastName: 'Doe'
+        );
+
+        $client->xmlHttpRequest(
+            Request::METHOD_GET,
+            '/api/customer_users/' . $customerUser->getId(),
+            server: ['HTTP_AUTHORIZATION' => 'Bearer ' . $token]
+        );
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
 }

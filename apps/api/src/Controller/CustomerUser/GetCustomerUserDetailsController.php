@@ -20,6 +20,8 @@ class GetCustomerUserDetailsController extends ExtendedAbstractController
     #[Route('/api/customer_users/{id}', name: 'api_customer_users_show', methods: ['GET'])]
     public function __invoke(CustomerUser $customerUser): Response
     {
+        $this->denyAccessUnlessGranted('view', $customerUser);
+
         return $this->json($this->customerUserResourceFactory->create($customerUser));
     }
 }

@@ -7,19 +7,18 @@ namespace App\Tests\Api;
 use App\Entity\Customer;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
-use League\Bundle\OAuth2ServerBundle\Model\Client;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class ApiTestCase extends WebTestCase
 {
-    protected function createOAuthClient(): Customer
+    protected function createOAuthClient(?string $name = null, ?string $identifier = null): Customer
     {
         /** @var ClientManagerInterface $em */
         $em = $this->getContainer()->get(ClientManagerInterface::class);
 
-        $client = new Customer("Test", "test", "test");
+        $client = new Customer($name ?? "Test", $identifier ?? "test", $identifier ?? "test");
         $client->setActive(true);
         $client->setAllowPlainTextPkce(true);
 
