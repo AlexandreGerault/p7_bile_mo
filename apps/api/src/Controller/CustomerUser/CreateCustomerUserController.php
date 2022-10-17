@@ -23,7 +23,7 @@ class CreateCustomerUserController extends ExtendedAbstractController
     ) {
     }
 
-    #[Route('/api/customer_users', name: 'api_customer_users', methods: ['POST'])]
+    #[Route('/api/customer_users', name: 'api_customer_users_create', methods: ['POST'])]
     public function __invoke(Request $request, ValidatorInterface $validator): Response
     {
         $customer = $this->getOAuthClient();
