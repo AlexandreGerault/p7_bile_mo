@@ -6,7 +6,7 @@ namespace App\Controller\CustomerUser;
 
 use App\Controller\ExtendedAbstractController;
 use App\Entity\CustomerUser;
-use App\Factory\HttpResource\CustomerUserResourceFactory;
+use App\HttpResource\HttpResourceFactory;
 use App\Manager\CustomerUserManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +19,7 @@ class CreateCustomerUserController extends ExtendedAbstractController
     public function __construct(
         private readonly CustomerUserManagerInterface $entityManager,
         private readonly SerializerInterface $serializer,
-        private readonly CustomerUserResourceFactory $customerUserResourceFactory,
+        private readonly HttpResourceFactory $customerUserResourceFactory,
     ) {
     }
 
@@ -43,7 +43,7 @@ class CreateCustomerUserController extends ExtendedAbstractController
         $this->entityManager->save($customerUser);
 
         return $this->json(
-            $this->customerUserResourceFactory->create($customerUser),
+            $this->customerUserResourceFactory->create($customerUser, ['groups' => ['customer_user:read']]),
             Response::HTTP_CREATED,
         );
     }

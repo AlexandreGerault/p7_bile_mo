@@ -70,6 +70,9 @@ composer-install:
 composer-dump:
 	@docker-compose exec php composer dump-autoload
 
+create-client:
+	@docker-compose exec php php bin/console league:oauth2-server:create-client Client_Test
+
 #-----------------------------------------------------------
 ##@ # Mysql commands
 #-----------------------------------------------------------

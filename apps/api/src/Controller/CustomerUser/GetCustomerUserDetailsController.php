@@ -6,13 +6,13 @@ namespace App\Controller\CustomerUser;
 
 use App\Controller\ExtendedAbstractController;
 use App\Entity\CustomerUser;
-use App\Factory\HttpResource\CustomerUserResourceFactory;
+use App\HttpResource\HttpResourceFactory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GetCustomerUserDetailsController extends ExtendedAbstractController
 {
-    public function __construct(private readonly CustomerUserResourceFactory $customerUserResourceFactory)
+    public function __construct(private readonly HttpResourceFactory $httpResourceFactory)
     {
     }
 
@@ -21,6 +21,6 @@ class GetCustomerUserDetailsController extends ExtendedAbstractController
     {
         $this->denyAccessUnlessGranted('view', $customerUser);
 
-        return $this->json($this->customerUserResourceFactory->create($customerUser));
+        return $this->json($this->httpResourceFactory->create($customerUser, ['groups' => ['customer_user:read']]));
     }
 }

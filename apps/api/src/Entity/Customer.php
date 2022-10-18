@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use League\Bundle\OAuth2ServerBundle\Model\AbstractClient;
@@ -19,8 +20,14 @@ class Customer extends AbstractClient
     /**
      * @var Collection<int, CustomerUser>
      */
-    #[ORM\ManyToMany(targetEntity: CustomerUser::class, mappedBy: 'client')]
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: CustomerUser::class)]
     private Collection $users;
+
+    public function __construct(string $name, string $identifier, ?string $secret)
+    {
+        parent::__construct($name, $identifier, $secret);
+        $this->users = new ArrayCollection();
+    }
 
     /** @return Collection<int, CustomerUser> */
     public function getUsers(): Collection
