@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Api\CustomerUsers;
 
 use App\Entity\Customer;
-use App\Entity\CustomerUser;
 use App\Tests\Api\ApiTestCase;
 use App\Tests\Api\Helpers\AssertResponse;
 use App\Tests\Api\Helpers\CustomerUserFactory;
-use League\Bundle\OAuth2ServerBundle\Model\AbstractClient;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class ListCustomerUserTest extends ApiTestCase
@@ -31,7 +29,7 @@ class ListCustomerUserTest extends ApiTestCase
         $oauthClient = $this->createOAuthClient();
         $token = $this->getAccessTokenFor($oauthClient, $client);
 
-        $this->createManyCustomerUsers($client, $oauthClient, 20);
+        $this->createManyCustomerUsers($client, $oauthClient, 25);
 
         $client->xmlHttpRequest(
             'GET',
@@ -41,6 +39,15 @@ class ListCustomerUserTest extends ApiTestCase
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHasCount($client, 10, 'items');
+
+        $client->xmlHttpRequest(
+            'GET',
+            '/api/customer_users?page=3&limit=10',
+            server: ['HTTP_AUTHORIZATION' => 'Bearer ' . $token]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseHasCount($client, 5, 'items');
     }
 
     private function createManyCustomerUsers(KernelBrowser $client, Customer $oauthClient, int $n): array

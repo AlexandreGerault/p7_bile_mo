@@ -23,11 +23,9 @@ class ListCustomerUserController extends ExtendedAbstractController
     #[Route('/api/customer_users', name: 'api_customer_users_list', methods: ['GET'])]
     public function __invoke(Request $request): Response
     {
-        /** @var int $page */
-        $page = $request->get('page', 1);
+        $page = (int) $request->get('page', 1);
 
-        /** @var int $perPage */
-        $perPage = $request->get('per_page', 10);
+        $perPage = (int) $request->get('limit', 10);
 
         $users = $this->customerUserRepository->findAllPaginated($page, $perPage);
 

@@ -24,17 +24,18 @@ class PaginatedResourceFactory implements PaginatedResourceFactoryInterface
 
         $currentPage = $collection->page;
         $lastPage = (int)ceil($collection->totalItems / $collection->perPage);
+        $perPage = $collection->perPage;
 
         return new PaginatedResources(
             items: $items,
-            currentPage: $this->urlGenerator->generate($routeName, ['page' => $currentPage]),
-            lastPage: $this->urlGenerator->generate($routeName, ['page' => $lastPage]),
-            firstPage: $this->urlGenerator->generate($routeName, ['page' => 1]),
+            currentPage: $this->urlGenerator->generate($routeName, ['page' => $currentPage, 'limit' => $perPage]),
+            lastPage: $this->urlGenerator->generate($routeName, ['page' => $lastPage, 'limit' => $perPage]),
+            firstPage: $this->urlGenerator->generate($routeName, ['page' => 1, 'limit' => $perPage]),
             nextPage: $currentPage < $lastPage
-                ? $this->urlGenerator->generate($routeName, ['page' => $currentPage + 1])
+                ? $this->urlGenerator->generate($routeName, ['page' => $currentPage + 1, 'limit' => $perPage])
                 : null,
             previousPage: $currentPage > 1
-                ? $this->urlGenerator->generate($routeName, ['page' => $currentPage - 1])
+                ? $this->urlGenerator->generate($routeName, ['page' => $currentPage - 1, 'limit' => $perPage])
                 : null,
         );
     }
