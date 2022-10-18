@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\HttpResource;
 
-class CustomerUserResource
+class HttpResource
 {
     /**
      * @param array<string, string> $data
-     * @param array<string, array{url: string}> $links
-     * @param array<string, string> $embedded
+     * @param array<string, string> $links
+     * @param array<string, mixed> $embedded
      */
     public function __construct(
         public readonly array $data,
