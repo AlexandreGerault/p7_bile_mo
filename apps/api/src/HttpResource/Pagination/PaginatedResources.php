@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\HttpResource;
+namespace App\HttpResource\Pagination;
 
-class HttpPaginatedResource
+use App\HttpResource\HttpResource;
+
+class PaginatedResources
 {
     /** @var array<string, string> */
     private array $links;
