@@ -21,6 +21,10 @@ class GetCustomerUserDetailsController extends ExtendedAbstractController
     {
         $this->denyAccessUnlessGranted('view', $customerUser);
 
-        return $this->json($this->httpResourceFactory->create($customerUser, ['groups' => ['customer_user:read']]));
+        return $this->json($this->httpResourceFactory->create(
+            $customerUser,
+            'api_customer_users_',
+            ['groups' => ['customer_user:read']]
+        ));
     }
 }

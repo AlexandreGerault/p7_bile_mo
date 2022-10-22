@@ -12,5 +12,5 @@ interface PaginatedResourceFactoryInterface
      * @param array{groups: mixed} $options
      * @throws ExceptionInterface
      */
-    public function create(PaginatedCollection $collection, string $routeName, array $options): PaginatedResources;
+    public function create(PaginatedCollection $collection, string $routePrefix, string $routeName, array $options): PaginatedResources;
 }
