@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\CustomerUser;
 
 use App\Controller\ExtendedAbstractController;
-use App\HttpResource\HttpPaginatedCustomerUserResource;
 use App\HttpResource\Pagination\PaginatedResourceFactoryInterface;
 use App\Repository\CustomerUserRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,14 +22,15 @@ class ListCustomerUserController extends ExtendedAbstractController
     #[Route('/api/customer_users', name: 'api_customer_users_list', methods: ['GET'])]
     public function __invoke(Request $request): Response
     {
-        $page = (int) $request->get('page', 1);
+        $page = (int) $request->get('page', 1); // @phpstan-ignore-line
 
-        $perPage = (int) $request->get('limit', 10);
+        $perPage = (int) $request->get('limit', 10); // @phpstan-ignore-line
 
         $users = $this->customerUserRepository->findAllPaginated($page, $perPage);
 
         $paginatedResource = $this->resourceFactory->create(
             $users,
+            'api_customer_users_',
             'api_customer_users_list',
             ['groups' => ['customer_user:read']]
         );

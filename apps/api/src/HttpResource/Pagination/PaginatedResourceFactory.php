@@ -15,10 +15,10 @@ class PaginatedResourceFactory implements PaginatedResourceFactoryInterface
     ) {
     }
 
-    public function create(PaginatedCollection $collection, string $routeName, array $options): PaginatedResources
+    public function create(PaginatedCollection $collection, string $routePrefix, string $routeName, array $options): PaginatedResources
     {
         $items = array_map(
-            fn($item) => $this->httpResourceFactory->create($item, $options),
+            fn($item) => $this->httpResourceFactory->create($item, $routePrefix, $options),
             $collection->items
         );
 

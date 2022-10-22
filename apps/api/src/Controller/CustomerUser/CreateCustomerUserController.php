@@ -43,7 +43,11 @@ class CreateCustomerUserController extends ExtendedAbstractController
         $this->entityManager->save($customerUser);
 
         return $this->json(
-            $this->customerUserResourceFactory->create($customerUser, ['groups' => ['customer_user:read']]),
+            $this->customerUserResourceFactory->create(
+                $customerUser,
+                'api_customer_users_',
+                ['groups' => ['customer_user:read']]
+            ),
             Response::HTTP_CREATED,
         );
     }
