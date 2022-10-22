@@ -9,6 +9,7 @@ use App\Entity\CustomerUser;
 use App\HttpResource\HttpResourceFactory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 class GetCustomerUserDetailsController extends ExtendedAbstractController
 {
@@ -16,6 +17,7 @@ class GetCustomerUserDetailsController extends ExtendedAbstractController
     {
     }
 
+    /** @throws ExceptionInterface */
     #[Route('/api/customer_users/{id}', name: 'api_customer_users_show', methods: ['GET'])]
     public function __invoke(CustomerUser $customerUser): Response
     {
