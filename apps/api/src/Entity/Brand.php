@@ -31,7 +31,7 @@ class Brand
         $this->phones = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function getId(): AbstractUid
     {
         return $this->id;
     }
