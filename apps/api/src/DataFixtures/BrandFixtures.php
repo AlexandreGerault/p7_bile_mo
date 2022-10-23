@@ -84,7 +84,7 @@ class BrandFixtures extends Fixture
         $manager->persist($lgBrand);
         $this->addReference(self::LG_BRAND_REFERENCE, $lgBrand);
     }
-    
+
     private function registerMotorola(ObjectManager $manager): void
     {
         $motorolaBrand = new Brand();
