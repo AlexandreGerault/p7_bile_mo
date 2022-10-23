@@ -48,6 +48,9 @@ class GetPhoneDetailsTest extends ApiTestCase
         $this->assertEquals(
             [
                 'id' => $phone->getId(),
+                'brand' => [
+                    'name' => 'Apple',
+                ],
                 'model' => 'iPhone 12',
                 'price' => 99999,
                 'description' => 'The iPhone 12 is a smartphone designed, developed, and marketed by Apple Inc.',
