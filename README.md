@@ -51,7 +51,7 @@ Make sure you installed the project first, referring to the [Installation](#Inst
 
 ### UML diagrams
 
-UML diagrams are available in the `docs` folder.
+UML diagrams are available in the `documentation` folder.
 
 ### API Reference
 
