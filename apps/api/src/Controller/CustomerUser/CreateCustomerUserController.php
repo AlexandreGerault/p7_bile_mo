@@ -33,7 +33,7 @@ class CreateCustomerUserController extends ExtendedAbstractController
     {
         $customer = $this->getOAuthClient();
 
-        $payload = json_encode($request->request->all());
+        $payload = $this->jsonParams($request);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->serializer->deserialize($payload, CustomerUser::class, 'json');

@@ -8,6 +8,7 @@ use App\Entity\Customer;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Model\AbstractClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ExtendedAbstractController extends AbstractController
@@ -38,5 +39,16 @@ class ExtendedAbstractController extends AbstractController
         }
 
         return $customer;
+    }
+
+    protected function jsonParams(Request $request): string
+    {
+        $payload = $request->getContent();
+
+        if ($payload === "") {
+            $payload = json_encode($request->request->all());
+        }
+
+        return $payload;
     }
 }
