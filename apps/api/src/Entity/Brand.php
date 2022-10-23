@@ -7,6 +7,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\AbstractUid;
 use Symfony\Component\Uid\Uuid;
 
@@ -19,6 +20,7 @@ class Brand
     protected AbstractUid $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['phone:read'])]
     private string $name;
 
     /** @var Collection<int, Phone> */

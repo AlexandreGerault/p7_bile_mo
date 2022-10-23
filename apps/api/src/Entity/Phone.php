@@ -19,6 +19,7 @@ class Phone
     private AbstractUid $id;
 
     #[ORM\ManyToOne(targetEntity: Brand::class)]
+    #[Groups(['phone:read'])]
     private Brand $brand;
 
     #[ORM\Column(type: 'string', length: 255)]
