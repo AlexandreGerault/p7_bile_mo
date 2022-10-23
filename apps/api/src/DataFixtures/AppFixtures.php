@@ -10,7 +10,7 @@ use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(private ClientManagerInterface $clientManager)
+    public function __construct(private readonly ClientManagerInterface $clientManager)
     {
     }
 
@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
 
     private function createCustomer(string $name, string $identifier, string $secret): void
     {
-        $client = new Customer($name, $identifier, $identifier);
+        $client = new Customer($name, $identifier, $secret);
         $client->setActive(true);
         $client->setAllowPlainTextPkce(true);
 

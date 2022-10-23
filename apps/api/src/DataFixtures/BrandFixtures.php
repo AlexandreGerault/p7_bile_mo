@@ -18,7 +18,7 @@ class BrandFixtures extends Fixture
     public const LG_BRAND_REFERENCE = 'lg';
     public const MOTOROLA_BRAND_REFERENCE = 'motorola';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $appleBrand = new Brand();
         $appleBrand->setName('Apple');

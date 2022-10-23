@@ -49,6 +49,10 @@ class ExtendedAbstractController extends AbstractController
             $payload = json_encode($request->request->all());
         }
 
+        if (!is_string($payload)) {
+            throw new \Exception('Invalid payload');
+        }
+
         return $payload;
     }
 }

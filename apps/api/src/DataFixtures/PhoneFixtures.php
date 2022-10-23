@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class PhoneFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         /** @var Brand $apple */
         $apple = $this->getReference(BrandFixtures::APPLE_BRAND_REFERENCE);
