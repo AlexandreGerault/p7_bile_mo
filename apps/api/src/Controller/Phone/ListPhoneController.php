@@ -2,39 +2,40 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\CustomerUser;
+namespace App\Controller\Phone;
 
 use App\Controller\ExtendedAbstractController;
 use App\HttpResource\Pagination\PaginatedResourceFactoryInterface;
 use App\Repository\CustomerUserRepositoryInterface;
+use App\Repository\PhoneRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
-class ListCustomerUserController extends ExtendedAbstractController
+class ListPhoneController extends ExtendedAbstractController
 {
     public function __construct(
-        private readonly CustomerUserRepositoryInterface $customerUserRepository,
+        private readonly PhoneRepositoryInterface $phoneRepository,
         private readonly PaginatedResourceFactoryInterface $resourceFactory
     ) {
     }
 
     /** @throws ExceptionInterface */
-    #[Route('/api/customer_users', name: 'api_customer_users_list', methods: ['GET'])]
+    #[Route('/api/phones', name: 'api_phones_list', methods: ['GET'])]
     public function __invoke(Request $request): Response
     {
         $page = (int) $request->get('page', 1); // @phpstan-ignore-line
 
         $perPage = (int) $request->get('limit', 10); // @phpstan-ignore-line
 
-        $users = $this->customerUserRepository->findAllPaginated($page, $perPage);
+        $phones = $this->phoneRepository->findAllPaginated($page, $perPage);
 
         $paginatedResource = $this->resourceFactory->create(
-            $users,
-            'api_customer_users_',
-            'api_customer_users_list',
-            ['groups' => ['customer_user:read']]
+            $phones,
+            'api_phones_',
+            'api_phones_list',
+            ['groups' => ['phone:read']]
         );
 
         return $this->json($paginatedResource);

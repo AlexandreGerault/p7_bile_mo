@@ -25,15 +25,15 @@ class HttpResourceFactory
      * @return HttpResource
      * @throws ExceptionInterface
      */
-    public function create(mixed $entity, array $options): HttpResource
+    public function create(mixed $entity, string $routePrefix, array $options): HttpResource
     {
         /** @var array<string, string> $data */
         $data = $this->serializer->normalize($entity, 'json', ['groups' => $options['groups']]);
 
-        $links['self'] = $this->urlGenerator->generate('api_customer_users_show', ['id' => $entity->getId()]);
+        $links['self'] = $this->urlGenerator->generate($routePrefix . 'show', ['id' => $entity->getId()]);
 
         if ($this->security->isGranted('delete', $entity)) {
-            $links['delete'] = $this->urlGenerator->generate('api_customer_users_delete', ['id' => $entity->getId()]);
+            $links['delete'] = $this->urlGenerator->generate($routePrefix . 'delete', ['id' => $entity->getId()]);
         }
 
         return new HttpResource($data, $links);

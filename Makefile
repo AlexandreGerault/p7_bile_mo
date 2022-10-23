@@ -1,4 +1,17 @@
 #-----------------------------------------------------------
+##@ # Install commands
+#-----------------------------------------------------------
+install:
+	@echo "Installing..."
+	@docker-compose up -d
+	@docker-compose exec php composer install
+	@docker-compose exec php bin/console doctrine:schema:update --force
+	@docker-compose exec php bin/console doctrine:fixtures:load --no-interaction
+	@docker-compose exec php bin/console cache:clear
+	@echo "Installation done."
+
+
+#-----------------------------------------------------------
 ##@ # Stack commands
 #-----------------------------------------------------------
 

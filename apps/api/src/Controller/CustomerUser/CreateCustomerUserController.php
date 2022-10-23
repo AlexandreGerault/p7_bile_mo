@@ -11,6 +11,7 @@ use App\Manager\CustomerUserManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -23,12 +24,16 @@ class CreateCustomerUserController extends ExtendedAbstractController
     ) {
     }
 
+    /**
+     * @throws ExceptionInterface
+     * @throws \Exception
+     */
     #[Route('/api/customer_users', name: 'api_customer_users_create', methods: ['POST'])]
     public function __invoke(Request $request, ValidatorInterface $validator): Response
     {
         $customer = $this->getOAuthClient();
 
-        $payload = json_encode($request->request->all());
+        $payload = $this->jsonParams($request);
 
         /** @var CustomerUser $customerUser */
         $customerUser = $this->serializer->deserialize($payload, CustomerUser::class, 'json');
@@ -43,7 +48,11 @@ class CreateCustomerUserController extends ExtendedAbstractController
         $this->entityManager->save($customerUser);
 
         return $this->json(
-            $this->customerUserResourceFactory->create($customerUser, ['groups' => ['customer_user:read']]),
+            $this->customerUserResourceFactory->create(
+                $customerUser,
+                'api_customer_users_',
+                ['groups' => ['customer_user:read']]
+            ),
             Response::HTTP_CREATED,
         );
     }
